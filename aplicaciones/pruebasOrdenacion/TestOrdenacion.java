@@ -34,11 +34,11 @@ public class TestOrdenacion {
         Ordenacion.quickSort(a1);
 
         // Ordenacion por Merge Sort (version 2) de a2:   
-        //COMPLETAR		
-	Ordenacion.mergeSort2(a2);	
-		// Son iguales a1 (quickSort) y a2 (mergeSort2)?
-		// COMPLETAR return 
-	return Ordenacion.sonIguales(a1,a2);
+        //COMPLETAR     
+    Ordenacion.mergeSort2(a2);  
+        // Son iguales a1 (quickSort) y a2 (mergeSort2)?
+        // COMPLETAR return 
+    return Ordenacion.sonIguales(a1,a2);
     }
 
     /**
@@ -76,7 +76,7 @@ public class TestOrdenacion {
                 t1 = System.nanoTime();
                 Ordenacion.mergeSort2(aux2);
                 t2 = System.nanoTime();
-                tacum3 += t2 - t1;   
+                tacum2 += t2 - t1;   
                 
                 
                 t1 = System.nanoTime();
@@ -141,8 +141,10 @@ public class TestOrdenacion {
                 t2 = System.nanoTime();
                 tacum1 += t2 - t1;    
                 
-                // A completar: 
-                // Temporizacion de mergeSort2                               
+                t1 = System.nanoTime();
+                Ordenacion.mergeSort2(aux2);
+                t2 = System.nanoTime();
+                tacum2 += t2 - t1;                               
                                                                 
                 t1 = System.nanoTime();
                 Ordenacion.quickSort(aux3);
@@ -168,8 +170,12 @@ public class TestOrdenacion {
      * @return String[]
      */    
     public static String[] crearAleatorioString(int talla, int n) {
-        /*MODIFICAR*/
-        return null;
+        String[] sol = new String[talla];
+        GeneradorDeString g = new GeneradorDeString(n);
+        for(int  i= 0; i<sol.length; i++){
+            sol[i] = g.generar();
+        }
+        return sol;
     }
     
     public static void main(String[] args) {

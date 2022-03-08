@@ -142,23 +142,14 @@ public class Ordenacion {
      */
     private static <T extends Comparable<T>> T[] mergeSort2(T[] v,
                                                              int i, int f) {
-        T[] sol = (T[]) new Comparable[f - i + 1];
-        if(i==f){
-            sol[0]=v[i];
-        } else if (i+1==f){
-            if(v[i].compareTo(v[f])<0) {
-                sol[0]=v[0];
-                sol[1]=v[1];
-            } else {
-                sol[0]=v[1];
-                sol[1]=v[0];
-            }   
-        } else if(i<f){
+        if(i<f){
             int m = (i+f)/2;
             T[] v1 = mergeSort2(v, i, m);
             T[] v2 = mergeSort2(v, m + 1, f);
-            sol = merge2(v1, v2);
+            return merge2(v1, v2);
         }
+        T[] sol = (T[]) new Comparable[1];
+        sol[0]=v[i];
         return sol;
     }        
     
