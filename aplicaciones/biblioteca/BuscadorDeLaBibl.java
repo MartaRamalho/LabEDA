@@ -90,6 +90,14 @@ public class BuscadorDeLaBibl {
         }
     }
     
+    public static void main(String[] args) throws FileNotFoundException {
+        BuscadorDeLaBibl bib = new BuscadorDeLaBibl();    
+        String[] a = {"ficheros", "tabla", "programa", "estrellas", "tocadiscos", "ladrillos"};
+        ListaConPI<Termino> lt = new LEGListaConPI<Termino>();
+        for (String s : a) lt.insertar(new Termino(s));
+        Map<Termino,Integer> m = bib.tablaFrecuencias(lt);    
+    }
+
     /** Crea el Buscador de la BD que forman los libros de listaLibros.
      *  Basicamente, ello supone crear el Indice de la biblioteca 
      *  con, como maximo, maxTerminos. Si no encuentra (el fichero .txt  
@@ -200,14 +208,30 @@ public class BuscadorDeLaBibl {
      *  de la BD, o null si no existe ninguno.
      */
     public ListaConPI<Termino> hapax() {
-        ListaConPI<Termino> lista = index.claves();
-        for(int i = 0; i<index.claves().talla(); i++){
-            Termino term = lista.recuperar();
-            if(index.recuperar(term).talla()!=1){
-                lista.eliminar();
+        ListaConPI<Termino> listaClaves = index.claves();
+        ListaConPI<Termino> listaSol = new LEGListaConPI();
+        for(listaClaves.inicio(); !listaClaves.esFin(); listaClaves.siguiente()){
+            Termino term = listaClaves.recuperar();
+            if(index.recuperar(term).talla()==1){
+                listaSol.insertar(term);
             }
-            lista.siguiente();
         }
-        return lista;
+        if(listaSol.esVacia()) return null;
+        return listaSol;
+    }
+    
+    public Map<Termino, Integer> tablaFrecuencias(ListaConPI<Termino> tl){
+        Map<Termino,Integer> sol = new TablaHash<Termino,Integer>(tl.talla());
+        for(tl.inicio(); !tl.esFin(); tl.siguiente()){
+            Termino term = tl.recuperar();
+            ListaConPI l = index.recuperar(term);
+            if(l==null) sol.insertar(term, 0);
+            else{
+                Integer n = l.talla();
+                sol.insertar(term, n);
+            }
+            System.out.println("("+term.termino+", "+sol.recuperar(term)+")");
+        }
+        return sol;
     }
 }    
